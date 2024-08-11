@@ -1,12 +1,14 @@
-const getIcvFromCoordinates = async (latitude: number, longitude: number, timeoutMs?: number): Promise<number | null> => {
+import fetchConstants from '../../constants/fetch';
+
+const getIcvFromCoordinates = async (latitude: number, longitude: number, timeoutMs: number = fetchConstants.DEFAULT_TIMEOUT): Promise<number | null> => {
   try {
     const response: any = await fetch(`https://icv.conicet.gov.ar/api/v1/value?latitude=${latitude}&longitude=${longitude}`, {
-      signal: AbortSignal.timeout(timeoutMs || 10000)
+      signal: AbortSignal.timeout(timeoutMs)
     });
 
     if (response.status === 200) {
       const responseBody = response.json();
-      return responseBody.value;
+      return Number(responseBody.value);
     }
     return null;
   } catch (error) {
