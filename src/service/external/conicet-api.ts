@@ -7,7 +7,7 @@ const getIcvFromCoordinates = async (latitude: number, longitude: number, timeou
     });
 
     if (response.status === 200) {
-      const responseBody = response.json();
+      const responseBody = await response.json();
       return Number(responseBody.value);
     }
     return null;
